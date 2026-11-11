@@ -9599,16 +9599,17 @@ local function createFrame(arg, parent, arg2)
 local menu = arg._menu
 local controlHeight = v117.get().Row.ControlHeight
 local frame = Instance.new("Frame")
+local fillWidth = arg.FillWidth == true
 frame.ClipsDescendants = true
 frame.AnchorPoint = Vector2.new(v86[63], 0.5)
 frame.Position = UDim2.new(v86[63], -v86[63], 0.5, 0)
-frame.Size = UDim2.fromOffset(0, controlHeight)
+frame.Size = fillWidth and UDim2.new(1, 0, 0, controlHeight) or UDim2.fromOffset(0, controlHeight)
 frame.BorderSizePixel = 0
 arg2.Batch:Bind(frame, v86[5], v86[168])
 frame.Parent = parent
 local uiSizeConstraint = Instance.new("UISizeConstraint")
-uiSizeConstraint.MinSize = Vector2.new(math.min(arg.MaxWidth + v86[12], v86[163]), controlHeight)
-uiSizeConstraint.MaxSize = Vector2.new(arg.MaxWidth + 12, controlHeight)
+uiSizeConstraint.MinSize = fillWidth and Vector2.new(0, controlHeight) or Vector2.new(math.min(arg.MaxWidth + v86[12], v86[163]), controlHeight)
+uiSizeConstraint.MaxSize = fillWidth and Vector2.new(10000, controlHeight) or Vector2.new(arg.MaxWidth + 12, controlHeight)
 uiSizeConstraint.Parent = frame
 local uiCorner = Instance.new("UICorner")
 uiCorner.CornerRadius = UDim.new(0, 5)
@@ -9641,6 +9642,7 @@ arg._rt = { Outline = frame, Input = instance }
 local tweenInfo = TweenInfo.new(0.05, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, v86[186], false, 0)
 
 local function fn36(arg3)
+if fillWidth then return end
 if instance.TextSize ~= 16 then
 instance.TextSize = 16
 end
@@ -9708,6 +9710,7 @@ Value = arg4.Default or "",
 Placeholder = arg4.Placeholder or v86[22],
 FocusLostOnly = arg4.FocusLostOnly == v86[34],
 MaxWidth = arg4.MaxLength or 200,
+FillWidth = arg4.FillWidth == true,
 Changed = arg3:Add(v115.new()),
 ValueChanged = arg3:Add(v115.new()),
 _onChanged = arg4.OnChanged or function()
@@ -15690,7 +15693,11 @@ imageLabel.BorderSizePixel = v86[186]
 if image ~= nil and image == getgenv().NamelessRebuild.LegacyLogo then
 imageLabel.ScaleType = Enum.ScaleType.Fit
 end
+if image ~= nil and image == getgenv().NamelessRebuild.LegacyLogo then
+imageLabel.ImageColor3 = Color3.new(1, 1, 1)
+else
 arg3:Bind(imageLabel, v86[156], "Accent")
+end
 imageLabel.Parent = frame2
 local frame3 = Instance.new("Frame")
 frame3.Position = UDim2.new(0, 0, v86[63], -v86[63])
@@ -16318,8 +16325,10 @@ instance.Size = UDim2.fromOffset(20, 20)
 instance.BorderSizePixel = 0
 if image ~= nil and image == getgenv().NamelessRebuild.LegacyLogo then
 instance.ScaleType = Enum.ScaleType.Fit
-end
+instance.ImageColor3 = Color3.new(1, 1, 1)
+else
 arg:Bind(instance, "ImageColor3", "Accent")
+end
 instance.Parent = parent
 return instance
 end
@@ -16428,6 +16437,7 @@ arg._logo.Image = icon
 local api = getgenv().NamelessRebuild
 if api ~= nil and icon == api.LegacyLogo then
 arg._logo.ScaleType = Enum.ScaleType.Fit
+arg._logo.ImageColor3 = Color3.new(1, 1, 1)
 else
 arg._logo.ScaleType = Enum.ScaleType.Stretch
 if api ~= nil and api._AnimatedLogoItems ~= nil then api._AnimatedLogoItems[arg._logo] = nil end
@@ -59557,18 +59567,18 @@ fn49(v122)
 fn49(v125)
 fn49(v128)
 fn49(v132)
-local v134 = v123:AddTextBox({ Label = "Search Skins" })
+local v134 = v123:AddTextBox({ Label = "Search Skins", FillWidth = true })
 local v135 = v123:AddSkinChanger({ HeightMode = "Fill", State = "Loading" })
-local v136 = v126:AddTextBox({ Label = "Search Wraps" })
+local v136 = v126:AddTextBox({ Label = "Search Wraps", FillWidth = true })
 local v137 = v126:AddToggle({ Label = "Inverted Wrap" })
 local v138 = v126:AddSkinChanger({ HeightMode = "Fill", State = "Loading" })
 local v139 = v126:AddButton({ Label = "Retry Loading Wrap Catalog", Variant = "primary" })
 v139:SetVisible(false)
-local v140 = v130:AddTextBox({ Label = "Search Charms" })
+local v140 = v130:AddTextBox({ Label = "Search Charms", FillWidth = true })
 local v141 = v130:AddSkinChanger({ HeightMode = "Fill", State = "Loading" })
 local v142 = v130:AddButton({ Label = "Retry Loading Charm Catalog", Variant = "primary" })
 v142:SetVisible(false)
-local v143 = v133:AddTextBox({ Label = "Search Finishers" })
+local v143 = v133:AddTextBox({ Label = "Search Finishers", FillWidth = true })
 local v144 = v133:AddSkinChanger({ HeightMode = "Fill", State = "Loading" })
 local tbl22 = {}
 local tbl23 = {}
